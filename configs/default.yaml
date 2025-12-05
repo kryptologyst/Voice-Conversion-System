@@ -1,0 +1,66 @@
+# Default configuration for voice conversion training
+
+# Model configuration
+model:
+  name: "cyclegan"  # cyclegan, vae
+  input_channels: 1
+  output_channels: 1
+  base_channels: 64
+  n_residual_blocks: 6
+  dropout: 0.1
+  lambda_cycle: 10.0
+  lambda_identity: 5.0
+  
+  # VAE-specific parameters
+  latent_dim: 128
+  speaker_dim: 64
+  beta: 1.0
+
+# Training configuration
+training:
+  max_epochs: 100
+  batch_size: 16
+  lr: 0.0002
+  beta1: 0.5
+  beta2: 0.999
+  lr_decay_step: 50
+  lr_decay_gamma: 0.5
+  precision: 16  # 16 for mixed precision, 32 for full precision
+  log_every_n_steps: 50
+  val_check_interval: 1.0
+  save_every_n_epochs: 10
+
+# Data configuration
+data:
+  data_dir: "data/toy_dataset"
+  num_workers: 4
+  max_length: 8192  # Maximum audio length in samples
+  train_split: 0.8
+  val_split: 0.1
+  augment: true
+
+# Audio processing configuration
+audio:
+  sample_rate: 22050
+  n_fft: 1024
+  hop_length: 256
+  n_mels: 80
+  f_min: 0.0
+  f_max: null  # Will be set to sample_rate // 2
+  preemphasis: 0.97
+
+# Evaluation configuration
+evaluation:
+  metrics: ["mcd", "sc", "si_sdr", "sdr", "snr", "pesq"]
+  save_samples: true
+  n_test_samples: 10
+
+# Logging configuration
+logging:
+  level: "INFO"
+  log_dir: "logs"
+  experiment_name: "voice_conversion"
+
+# Device configuration
+device: "auto"  # auto, cuda, mps, cpu
+seed: 42

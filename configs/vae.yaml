@@ -1,0 +1,60 @@
+# VAE-specific configuration
+
+# Model configuration
+model:
+  name: "vae"
+  input_channels: 1
+  output_channels: 1
+  base_channels: 64
+  latent_dim: 128
+  speaker_dim: 64
+  beta: 1.0
+
+# Training configuration
+training:
+  max_epochs: 150
+  batch_size: 16
+  lr: 0.001
+  beta1: 0.9
+  beta2: 0.999
+  lr_decay_step: 75
+  lr_decay_gamma: 0.5
+  precision: 16
+  log_every_n_steps: 50
+  val_check_interval: 1.0
+  save_every_n_epochs: 15
+
+# Data configuration
+data:
+  data_dir: "data/toy_dataset"
+  num_workers: 4
+  max_length: 8192
+  train_split: 0.8
+  val_split: 0.1
+  augment: true
+
+# Audio processing configuration
+audio:
+  sample_rate: 22050
+  n_fft: 1024
+  hop_length: 256
+  n_mels: 80
+  f_min: 0.0
+  f_max: null
+  preemphasis: 0.97
+
+# Evaluation configuration
+evaluation:
+  metrics: ["mcd", "sc", "si_sdr", "sdr", "snr", "pesq"]
+  save_samples: true
+  n_test_samples: 10
+
+# Logging configuration
+logging:
+  level: "INFO"
+  log_dir: "logs"
+  experiment_name: "vae_voice_conversion"
+
+# Device configuration
+device: "auto"
+seed: 42
